@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 
 
 class Ui_MainWindow(object):
@@ -81,7 +82,7 @@ class Ui_MainWindow(object):
         self.or_text.setStyleSheet("color: #4b4bd6;")
         self.or_text.setObjectName("or_text")
         self.status_btn = QtWidgets.QLabel(self.centralwidget)
-        self.status_btn.setGeometry(QtCore.QRect(180, 330, 141, 31))
+        self.status_btn.setGeometry(QtCore.QRect(100, 325, 300, 40))
         font = QtGui.QFont()
         font.setFamily("Montserrat SemiBold")
         font.setPointSize(20)
@@ -114,6 +115,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.add_functions()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -124,6 +127,14 @@ class Ui_MainWindow(object):
         self.lang_combobox.setItemText(0, _translate("MainWindow", "Русский"))
         self.lang_combobox.setItemText(1, _translate("MainWindow", "Английский"))
         self.label.setText(_translate("MainWindow", "Язык"))
+
+    def add_functions(self):
+        self.download_btn.clicked.connect(self.download_img)
+
+    def download_img(self):
+        file = QFileDialog.getOpenFileName(None, 'Open File', './', "Image (*.png *.jpg *jpeg)")
+        self.status_btn.setText("Картинка загружена")
+        return file
 
 
 if __name__ == "__main__":
