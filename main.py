@@ -12,10 +12,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QFileDialog
 from PIL import ImageGrab
+from PIL import Image
+import pytesseract
+
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 output_location = r'.\Resourses\images\image.png'
 
 class Ui_MainWindow(object):
+    fname = ""
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 600)
@@ -85,7 +90,7 @@ class Ui_MainWindow(object):
         self.or_text.setStyleSheet("color: #4b4bd6;")
         self.or_text.setObjectName("or_text")
         self.status_btn = QtWidgets.QLabel(self.centralwidget)
-        self.status_btn.setGeometry(QtCore.QRect(100, 325, 300, 40))
+        self.status_btn.setGeometry(QtCore.QRect(0, 325, 500, 40))
         self.status_btn.setAlignment(Qt.AlignCenter)
         font = QtGui.QFont()
         font.setFamily("Montserrat SemiBold")
@@ -135,21 +140,35 @@ class Ui_MainWindow(object):
     def add_functions(self):
         self.download_btn.clicked.connect(self.download_img)
         self.paste_btn.clicked.connect(self.paste_img)
+        self.getText_btn.clicked.connect(self.get_Text)
 
     def download_img(self):
         file = QFileDialog.getOpenFileName(None, 'Open File', './', "Image (*.png *.jpg *jpeg)")
         self.status_btn.setText("Картинка загружена")
-        return file
+        self.fname = file[0]
 
     def paste_img(self):
         try:
             image = ImageGrab.grabclipboard()
             self.status_btn.setText("Картинка загружена")
             image.save(output_location, 'PNG')
-            return '.\Resourses\images\image.png'
+            self.fname = '.\Resourses\images\image.png'
         except:
             self.status_btn.setText("Файл не картнинка!")
 
+    def get_Text(self):
+        if self.fname != "":
+            if self.lang_combobox.currentIndex() == 0:
+                lang = 'rus'
+            else:
+                lang = 'eng'
+
+            img = Image.open(self.fname)
+            text = pytesseract.image_to_string(img, lang=lang)
+            self.status_btn.setText("Текст получен")
+            self.textArea.setText(text)
+        else:
+            self.status_btn.setText("Картинка не загружена!")
 
 if __name__ == "__main__":
     import sys
