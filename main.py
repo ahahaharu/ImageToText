@@ -15,6 +15,7 @@ from PIL import ImageGrab
 from PIL import Image
 import pytesseract
 
+
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 output_location = r'.\Resourses\images\image.png'
@@ -22,6 +23,7 @@ output_location = r'.\Resourses\images\image.png'
 class Ui_MainWindow(object):
     fname = ""
     def setupUi(self, MainWindow):
+        MainWindow.setWindowIcon(QtGui.QIcon('./Resourses/icon.png'))
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 600)
         font = QtGui.QFont()
@@ -124,11 +126,14 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+
+
         self.add_functions()
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ImageToText"))
         self.download_btn.setText(_translate("MainWindow", "Загрузить картинку"))
         self.paste_btn.setText(_translate("MainWindow", "Вставить картинку"))
         self.getText_btn.setText(_translate("MainWindow", "Получить текст"))
