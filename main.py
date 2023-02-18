@@ -9,8 +9,11 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QFileDialog
+from PIL import ImageGrab
 
+output_location = r'.\Resourses\images\image.png'
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -83,6 +86,7 @@ class Ui_MainWindow(object):
         self.or_text.setObjectName("or_text")
         self.status_btn = QtWidgets.QLabel(self.centralwidget)
         self.status_btn.setGeometry(QtCore.QRect(100, 325, 300, 40))
+        self.status_btn.setAlignment(Qt.AlignCenter)
         font = QtGui.QFont()
         font.setFamily("Montserrat SemiBold")
         font.setPointSize(20)
@@ -130,11 +134,21 @@ class Ui_MainWindow(object):
 
     def add_functions(self):
         self.download_btn.clicked.connect(self.download_img)
+        self.paste_btn.clicked.connect(self.paste_img)
 
     def download_img(self):
         file = QFileDialog.getOpenFileName(None, 'Open File', './', "Image (*.png *.jpg *jpeg)")
         self.status_btn.setText("Картинка загружена")
         return file
+
+    def paste_img(self):
+        try:
+            image = ImageGrab.grabclipboard()
+            self.status_btn.setText("Картинка загружена")
+            image.save(output_location, 'PNG')
+            return '.\Resourses\images\image.png'
+        except:
+            self.status_btn.setText("Файл не картнинка!")
 
 
 if __name__ == "__main__":
