@@ -4,3 +4,8 @@
 
 Приложение переводит текст с картинки в обычный текст с помощью библиотеки pytesseract, который можно скопировать или как либо изменять.
 GUI приложение сделано при помощи библиотеки PyQt5
+
+Блиблиотеки 
+ - PyQt5 (pip install PyQt5)
+ - PIL (pip install pillow)
+ - pytesseract (pip install pytesseract)
